@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env sh
+
+set -eu
 
 sudo add-apt-repository --remove ppa:x4121/ripgrep
 sudo add-apt-repository ppa:neovim-ppa/unstable
