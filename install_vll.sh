@@ -1,8 +1,7 @@
 #!/usr/bin/env sh
+# modified from https://github.com/supasorn/cluster_setup
 
 set -eu
-
-git clone https://github.com/supasorn/cluster_utils.git
 
 node_list=$(seq 1 23)
 user=$(whoami)
