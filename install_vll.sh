@@ -1,8 +1,4 @@
 #!/bin/bash
-# modified from https://github.com/supasorn/cluster_setup
-
-set -eu
-
 node_list=$(seq 1 23)
 user=$(whoami)
 
