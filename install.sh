@@ -13,6 +13,7 @@ git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
 curl -sS https://starship.rs/install.sh | sh
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
+go install github.com/jesseduffield/lazygit@latest
 
 git clone https://github.com/tj-14/setup-server.git ~/setup-server
 mkdir -p ~/.config/tmux
