@@ -1,4 +1,11 @@
 abbr -a run "python ~/utils/cluster_utils/tasklauncher.py"
 abbr -a rls "python ~/utils/cluster_utils/tasklauncher.py lsgpu"
 abbr -a pserv "python -m http.server 8000"
-abbr -a psv "python -m http.server 8000"
+abbr -a gserv "simplehttpserver"
+abbr -a rserv "simple-http-server"
+abbr -a nserv "docker run -v .:/static -v ~/utils/nginx_custom.conf:/etc/nginx/conf.d/default.conf -p 8000:80 flashspys/nginx-static"
+abbr -a ir "python ~/src/tossaporn/scripts/inspect_result.py"
+abbr -a senv "source ~/env/bin/activate.fish"
+abbr -a s "source ~/env/bin/activate.fish"
+abbr -a t "ta main"
+

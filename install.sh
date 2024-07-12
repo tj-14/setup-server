@@ -21,5 +21,4 @@ ln -s ~/setup-server/tmux.conf ~/.config/tmux/tmux.conf
 rm -rf ~/.config/fish
 ln -s ~/setup-server/fish ~/.config/fish
 ln -s ~/setup-server/nvchad/custom ~/.config/nvim/lua/custom
-ln -s ~/setup-server/lf ~/.config/lf
 fish
