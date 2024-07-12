@@ -1,0 +1,109 @@
+---
+- name: Setup Development Environment
+  hosts: servers
+  become: yes
+  vars:
+    user: "tsaengja"
+    local_bin: "/home/{{ user }}/.local/bin"
+    local_tmp: "/home/{{ user }}/.tmp"
+    yazi_version: "0.2.5"
+  tasks:
+    - name: Update APT package index
+      apt:
+        update_cache: yes
+
+    - name: Install packages
+      apt:
+        name:
+          - ripgrep
+          - neovim
+          - nodejs
+          - vim
+          - tmux
+          - curl
+          - git
+          - fish
+          - golang-go
+          - fzf
+          - tar
+          - stow
+        state: present
+
+    - name: Create local_bin directory
+      file:
+        path: "{{ local_bin }}"
+        state: directory
+        owner: "{{ user }}"
+        group: "{{ user }}"
+
+    - name: Create local_tmp directory
+      file:
+        path: "{{ local_tmp }}"
+        state: directory
+        owner: "{{ user }}"
+        group: "{{ user }}"
+
+    - name: Install starship
+      shell: curl -sS https://starship.rs/install.sh | sh -s -- -y
+      args:
+        creates: "{{ local_bin }}/starship"
+
+    - name: Install zoxide
+      shell: curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+      args:
+        creates: "{{ local_bin }}/zoxide"
+
+    - name: Install lazygit
+      shell: |
+        LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+        curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+        tar xf lazygit.tar.gz lazygit
+        install -m 0755 lazygit "{{ local_bin }}/lazygit"
+        rm lazygit.tar.gz lazygit
+      args:
+        creates: "{{ local_bin }}/lazygit"
+
+    - name: Install Yazi
+      shell: |
+        curl -Lo yazi.zip "https://github.com/sxyazi/yazi/releases/download/v{{ yazi_version }}/yazi-x86_64-unknown-linux-gnu.zip"
+        tar xf yazi.zip yazi
+        mv "yazi/yazi" "{{ local_bin }}/yazi"
+        mv "yazi/ya" "{{ local_bin }}/ya"
+        rm -rf yazi yazi.zip
+      args:
+        creates: "{{ local_bin }}/yazi"
+
+    - name: Change default shell to fish for the current user
+      user:
+        name: "{{ user }}"
+        shell: /usr/bin/fish
+
+    - name: Create directory for dotfiles
+      file:
+        path: /home/{{ user }}/dotfiles
+        state: directory
+        owner: "{{ user }}"
+        group: "{{ user }}"
+
+    - name: Copy configuration files to dotfiles
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: "{{ item.mode }}"
+      with_items:
+        - { src: '../tmux/', dest: '/home/{{ user }}/dotfiles/tmux/.config/tmux/', mode: '0755' }
+        - { src: '../fish/', dest: '/home/{{ user }}/dotfiles/fish/.config/fish/', mode: '0755' }
+        - { src: '../nvim/', dest: '/home/{{ user }}/dotfiles/nvim/.config/nvim/', mode: '0755' }
+        - { src: '../git/', dest: '/home/{{ user }}/dotfiles/git/.config/git/', mode: '0644' }
+
+    - name: Use stow to manage configurations
+      command: "stow {{ item }}"
+      args:
+        chdir: /home/{{ user }}/dotfiles
+      with_items:
+        - tmux
+        - fish
+        - nvim
+        - git

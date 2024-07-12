@@ -1,0 +1,36 @@
+[user]
+	name = tree
+	email = g.z@live.jp
+[color]
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+	grep = auto
+[alias]
+	lol = log --graph --oneline --decorate --color --all
+	s = status
+	c = commit
+[github]
+	user = tj-14
+[pull]
+	rebase = true
+[init]
+	defaultBranch = main
+[delta]
+  minus-style                   = syntax "#3a273a"
+  minus-non-emph-style          = syntax "#3a273a"
+  minus-emph-style              = syntax "#6b2e43"
+  minus-empty-line-marker-style = syntax "#3a273a"
+  line-numbers-minus-style      = "#b55a67"
+  plus-style                    = syntax "#273849"
+  plus-non-emph-style           = syntax "#273849"
+  plus-emph-style               = syntax "#305f6f"
+  plus-empty-line-marker-style  = syntax "#273849"
+  line-numbers-plus-style       = "#627259"
+  line-numbers-zero-style       = "#3b4261"
+[filter "lfs"]
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f

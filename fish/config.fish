@@ -6,13 +6,10 @@ abbr -a gp git push
 abbr -a spaces "du -hsx * | sort -h"
 abbr -a space "du -hx * | sort -h"
 
-abbr -a rg1 "rg --max-depth=1"
-abbr -a rgf "rg --files | rg"
-
-if command -v lsd > /dev/null
-  abbr -a ls 'lsd'
-  abbr -a ll 'lsd -l'
-  abbr -a lll 'lsd -la'
+if command -v eza > /dev/null
+  abbr -a ls 'eza'
+  abbr -a ll 'eza -l'
+  abbr -a lll 'eza -la'
 else
   abbr -a ll 'ls -l'
   abbr -a lll 'ls -la'
